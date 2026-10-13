@@ -26,7 +26,7 @@ def update_view(request, pk):
     if request.method == 'POST':
         emp.name = request.POST.get('name')
         emp.email = request.POST.get('email')
-        emp.age = request.POST.get('age')=
+        emp.age = request.POST.get('age')
         emp.save()
         return redirect('home')
         
