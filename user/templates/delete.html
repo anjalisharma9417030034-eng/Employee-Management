@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Employee</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding: 40px;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .header p {
+            color: #777;
+            margin-top: 5px;
+        }
+
+        /* Theme Button */
+        .theme-btn {
+            background: #34495e;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Confirmation Box */
+        .confirm-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 550px;
+            margin: 60px auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-top: 5px solid #e74c3c;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .confirm-box h2 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .confirm-box p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .employee-name {
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        /* Actions */
+        .actions {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-cancel {
+            background: #95a5a6;
+            color: white;
+            padding: 12px 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 15px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn-delete:hover,
+        .btn-cancel:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Dark Mode */
+        body.dark {
+            background: linear-gradient(135deg, #141e30, #243b55);
+        }
+
+        body.dark .header,
+        body.dark .confirm-box {
+            background: #1e293b;
+            color: white;
+        }
+
+        body.dark .header h1 {
+            color: white;
+        }
+
+        body.dark .header p {
+            color: #cbd5e1;
+        }
+
+        body.dark .confirm-box p {
+            color: #cbd5e1;
+        }
+
+        body.dark .employee-name {
+            color: #93c5fd;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            body {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .confirm-box {
+                margin-top: 30px;
+                padding: 20px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn-delete,
+            .btn-cancel {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <h1>👨‍💼 Employee Management</h1>
+            <p>Delete employee from the system</p>
+        </div>
+
+        <button class="theme-btn" onclick="toggleTheme()">
+            🌙 Theme
+        </button>
+    </div>
+
+    <!-- Delete Confirmation -->
+    <div class="confirm-box">
+
+        <h2>🗑️ Delete Employee</h2>
+
+        <p>
+            Are you absolutely sure you want to remove
+            <strong class="employee-name">{{ employee.name }}</strong>
+            from the database?
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="actions">
+
+                <button type="submit" class="btn-delete">
+                    🗑️ Yes, Delete
+                </button>
+
+                <a href="{% url 'home' %}" class="btn-cancel">
+                    ↩️ No, Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+    // Dark / Light Theme
+    function toggleTheme() {
+
+        document.body.classList.toggle("dark");
+
+        if (document.body.classList.contains("dark")) {
+
+            localStorage.setItem("theme", "dark");
+
+        } else {
+
+            localStorage.setItem("theme", "light");
+
+        }
+    }
+
+    // Remember selected theme
+    window.onload = function() {
+
+        if (localStorage.getItem("theme") === "dark") {
+
+            document.body.classList.add("dark");
+
+        }
+
+    };
+
+</script>
+
+</body>
+</html>
+
